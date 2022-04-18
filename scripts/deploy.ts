@@ -6,8 +6,8 @@ async function main() {
   const voteContract = await vote.deploy();
   await voteContract.deployed();
   console.log("VoteCandidate deployed to:", voteContract.address);
-  await voteContract.addVoting([addr1.address,addr2.address]);
-  
+  await voteContract.addVoting([addr1.address, addr2.address]);
+
   await voteContract.connect(addrs[0]).vote(addr1.address);
   await voteContract.connect(addrs[1]).vote(addr2.address);
   await voteContract.connect(addrs[2]).vote(addr2.address);
