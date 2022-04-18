@@ -25,6 +25,7 @@ contract VoteCandidate is Ownable {
     uint256 votePrice = 1e16;
 
     function addVoting(address[] memory _candidates) public onlyOwner returns(uint256){
+        require(_candidates.length > 0, "No candidates!");
         console.log("candidates %s", _candidates[0]);
         Vote storage v = votes[voteId ++];
         for (uint256 i = 0 ; i < _candidates.length ; i ++){
@@ -37,6 +38,8 @@ contract VoteCandidate is Ownable {
     }
 
     function vote(uint256 _voteId, address payable _to) external payable {
+        require(_voteId < voteId, "Vote not added yet!");
+        require(_to != msg.sender, "Can't vote self");
         Vote storage v = votes[_voteId];
         console.log("vote to %s, from %s to %s",_to, v.endTime, block.timestamp);
         require( v.endTime != 0, "Vote not started!" );
